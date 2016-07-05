@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateCoordinatesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('coordinates', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('address');
+            $table->string('country');
+            $table->integer('phone');
+            $table->integer('postal_code');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('coordinates', function (Blueprint $table) {
+            //
+        });
+    }
+}
