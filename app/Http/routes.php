@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['prefix' => 'api'], function() {
+    Route::get('test', ['middleware' => 'cors', function() {
+        return response()->json(['name' => 'Dataface yo']);
+    }]);
+});
