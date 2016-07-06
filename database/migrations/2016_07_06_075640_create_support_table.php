@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserApplicationsTable extends Migration
+class CreateSupportTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateUserApplicationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_applications', function (Blueprint $table) {  
-            $table->integer('user_id')->unsigned();
-            $table->integer('application_id')->unsigned();
-            $table->primary(array('user_id', 'application_id'));
+        Schema::create('supports', function (Blueprint $table) {
+            $table->increments('id');
+            $table->text('question');
+            $table->text('response');
         });
     }
 

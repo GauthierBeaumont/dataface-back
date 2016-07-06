@@ -12,9 +12,10 @@ class CreateUserPaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('user_payments', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('type_payment')->references('id')->on('type_payments');
+        Schema::create('user_payments', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+            $table->integer('type_payment_id')->unsigned();
+            $table->primary(array('user_id', 'type_payment_id'));
         });
     }
 
@@ -25,8 +26,6 @@ class CreateUserPaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('payments', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }

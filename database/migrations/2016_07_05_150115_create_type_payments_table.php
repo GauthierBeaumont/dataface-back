@@ -12,7 +12,7 @@ class CreateTypePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('type_payments', function (Blueprint $table) {
+        Schema::create('type_payments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('label', 100);
         });
@@ -25,8 +25,6 @@ class CreateTypePaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('type_payments', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }

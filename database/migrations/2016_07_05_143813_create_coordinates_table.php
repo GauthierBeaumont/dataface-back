@@ -12,7 +12,7 @@ class CreateCoordinatesTable extends Migration
      */
     public function up()
     {
-        Schema::table('coordinates', function (Blueprint $table) {
+        Schema::create('coordinates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('address');
             $table->string('country');
@@ -28,8 +28,6 @@ class CreateCoordinatesTable extends Migration
      */
     public function down()
     {
-        Schema::table('coordinates', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }

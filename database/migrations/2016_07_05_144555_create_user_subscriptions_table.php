@@ -12,9 +12,10 @@ class CreateUserSubscriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('user_subscriptions', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('user_subscriptions')->references('id')->on('subscriptions');
+        Schema::create('user_subscriptions', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+            $table->integer('user_subscription_id')->unsigned();
+            $table->primary(array('user_id', 'user_subscription_id'));
         });
     }
 
@@ -25,8 +26,6 @@ class CreateUserSubscriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('user_subscriptions', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }
