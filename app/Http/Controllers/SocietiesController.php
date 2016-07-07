@@ -16,7 +16,7 @@ class SocietiesController extends Controller
      */
     public function show($id)
     {
-        $society = Society::find($id);
+        $society = Society::find(1);
 
         $name = '';
         $presentation = '';
@@ -46,7 +46,7 @@ class SocietiesController extends Controller
      */
     public function edit($id)
     {
-        $society = Society::find($id);
+        $society = Society::find(1);
 
         $name = '';
         $presentation = '';
@@ -78,6 +78,7 @@ class SocietiesController extends Controller
     {
 //        $society = new Society();
         $society = Society::firstOrCreate(['id' => 1]);
+        $society->id = 1;
         $society->name = $request->name;
         $society->presentation = htmlspecialchars_decode($request->presentation);
         $society->mentionLegal = htmlspecialchars_decode($request->mentionLegal);
