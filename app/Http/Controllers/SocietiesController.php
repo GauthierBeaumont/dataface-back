@@ -67,7 +67,7 @@ class SocietiesController extends Controller
     {
         $society = Society::firstOrCreate($id);
         $society->name = $request->name;
-        $society->description = $request->description;
+        $society->presentation = $request->presentation;
         $society->mentionLegal = $request->mentionLegal;
         $society->cgv = $request->cgv;
         $society->save();
