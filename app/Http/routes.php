@@ -18,5 +18,12 @@ Route::get('/', function () {
 Route::group(['prefix' => 'api', 'middleware' => 'cors'], function() {
     Route::get('test', function() {
         return response()->json(['name' => 'Dataface yo']);
-    });
+      });
+    Route::post('/pay', 'PayController@payment');
+
+
 });
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
