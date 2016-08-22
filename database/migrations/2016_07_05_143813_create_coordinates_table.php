@@ -16,7 +16,7 @@ class CreateCoordinatesTable extends Migration
             $table->increments('id');
             $table->string('address');
             $table->string('country');
-            $table->integer('phone');
+            $table->string('phone');
             $table->integer('postal_code');
         });
     }
