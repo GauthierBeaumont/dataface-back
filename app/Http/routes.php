@@ -25,10 +25,6 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function() {
     	return response()->json(['status' => session('status'), 'userData' => session('userData') ]);
     }]);
 
-    // Route::get('/', function() {
-    // 	return 
-    // });
-
 });
 
 //Login Register
@@ -36,13 +32,13 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function() {
 
 
 // Authentication Routes...
-Route::get('login', 'Auth\AuthController@showLoginForm');
-Route::post('login', 'Auth\AuthController@login');
-Route::get('logout', 'Auth\AuthController@logout');
+Route::get('login', 'Auth\AuthJsonController@showLoginForm');
+Route::post('login', 'Auth\AuthJsonController@login');
+Route::get('logout', 'Auth\AuthJsonController@logout');
 
 // Registration Routes...
-Route::get('register', 'Auth\AuthController@showRegistrationForm');
-Route::post('register', 'Auth\AuthController@register');
+Route::get('register', 'Auth\AuthJsonController@showRegistrationForm');
+Route::post('register', 'Auth\AuthJsonController@register');
 
 // Password Reset Routes...
 Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');

@@ -7,8 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+
 
 class AuthController extends Controller
 {
@@ -66,50 +65,10 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'lastname' => $data['lastname'],
-            'firstname' => $data['firstname'],
+            'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-    }
-
-    public function handleUserWasAuthenticated(Request $request, $throttles)
-    {
-        if ($throttles) {
-            $this->clearLoginAttempts($request);
-        }
-
-        if (method_exists($this, 'authenticated')) {
-
-            return $this->authenticated($request, Auth::guard($this->getGuard())->user());
-        }
-
-        return redirect()->route('apiConnect')->with('status','success')->with('userData', Auth::user());
-
-    }
-
-    protected function sendFailedLoginResponse(Request $request)
-    {
-        return redirect()
-            ->route('apiConnect')
-            ->withInput($request->only($this->loginUsername(), 'remember'))
-            ->withErrors([
-                $this->loginUsername() => $this->getFailedLoginMessage(),
-            ])
-            ->with('status','fail');
-    }
-
-    protected function sendLockoutResponse(Request $request)
-    {
-        $seconds = $this->secondsRemainingOnLockout($request);
-
-        return redirect()
-            ->route('apiConnect')
-            ->withInput($request->only($this->loginUsername(), 'remember'))
-            ->withErrors([
-                    $this->loginUsername() => $this->getLockoutErrorMessage($seconds),
-            ])
-            ->with('status','fail');
     }
 
 }
