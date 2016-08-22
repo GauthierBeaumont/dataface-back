@@ -15,22 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'api', 'middleware' => 'cors'], function() {
-
-    Route::get('test', function() {
-        return response()->json(['name' => 'Dataface yo']);
-    });
-
-    Route::post('connect',['as' => 'apiConnect', function() {
-    	return response()->json(['status' => session('status'), 'userData' => session('userData') ]);
-    }]);
-
-});
-
-//Login Register
-// Route::auth();
-
-
 // Authentication Routes...
 Route::get('login', 'Auth\AuthJsonController@showLoginForm');
 Route::post('login', 'Auth\AuthJsonController@login');
@@ -44,6 +28,5 @@ Route::post('register', 'Auth\AuthJsonController@register');
 Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
 Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
 Route::post('password/reset', 'Auth\PasswordController@reset');
-
 
 Route::get('/home', 'HomeController@index');
