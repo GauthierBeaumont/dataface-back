@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Society;
+use App\Models\Society;
 
 class SocietiesController extends Controller
 {

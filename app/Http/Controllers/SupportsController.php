@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Application;
-use App\Support;
-use App\User;
+use App\Models\Support;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -143,11 +142,10 @@ class SupportsController extends Controller
     public function callDelete(Request $request) {
         $user = User::where('email', $request->email)->first();
 
-        $application = new Application();
-        $user_appli = $application->users()->first();
-//        foreach ($user_applications as $user_appli) {
+        $user_applications = $user->applications()->first();
+        foreach ($user_applications as $user_appli) {
 //            echo $user_appli->id;
-//        }
+        }
 //        $user->delete();
 
         return response()->json([
