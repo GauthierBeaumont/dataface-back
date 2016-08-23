@@ -11,11 +11,13 @@
 |
 */
 
+use \App\Http\Middleware\Ip;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'api', 'middleware' => 'cors'], function() {
+Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
     Route::get('test', function() {
         return response()->json(['name' => 'Dataface yo']);
     });
