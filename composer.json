@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "barryvdh/laravel-debugbar": "^2.2",
-        "cartalyst/stripe-laravel": "~2.0"
+        "cartalyst/stripe-laravel": "~2.0",
+        "netshell/paypal": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
