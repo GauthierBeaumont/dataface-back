@@ -21,7 +21,7 @@ class SubscriptionController extends Controller
             $endFreeTrial
             : 0;
 
-        return ['type_subscription' => $typeSubscription, 'time_left' => $timeLeft];
+        return ['type_subscription' => $typeSubscription, 'end_subscription' => $timeLeft];
     }
 
     private function secondsToTime($seconds)
