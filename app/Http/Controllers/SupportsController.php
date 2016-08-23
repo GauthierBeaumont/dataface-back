@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Support;
 use App\User;
 use Illuminate\Http\Request;
@@ -106,7 +107,7 @@ class SupportsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $support = $support = Support::find(1);
+        $support = Support::find($id);
         $support->question = htmlspecialchars_decode($request->question);
         $support->response = htmlspecialchars_decode($request->response);
         $support->save();
@@ -134,18 +135,23 @@ class SupportsController extends Controller
         ]);
     }
 
-    /* Demande de suppression d'un utilisateur */
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  string  $email
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function callDelete($email) {
-        $user = User::findOrfail($email);
+    public function callDelete(Request $request) {
+        $user = User::where('email', $request->email)->first();
+
+        $application = new Application();
+        $user_appli = $application->users()->first();
+//        foreach ($user_applications as $user_appli) {
+//            echo $user_appli->id;
+//        }
+//        $user->delete();
+
         return response()->json([
-            'delete' => $user->id
+            'delete_user' => $user->email,
         ]);
     }
 }
