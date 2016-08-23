@@ -21,4 +21,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
     Route::get('test', function() {
         return response()->json(['name' => 'Dataface yo']);
     });
+
+    Route::get('subscription-info/{user}', 'SubscriptionController@info');
 });
