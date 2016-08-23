@@ -159,6 +159,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Barryvdh\Debugbar\ServiceProvider::class,
+        Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
     ],
 
     /*
@@ -205,6 +206,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
     ],
 
 ];

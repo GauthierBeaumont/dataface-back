@@ -11,11 +11,13 @@
 |
 */
 
+use \App\Http\Middleware\Ip;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'api', 'middleware' => 'cors'], function() {
+Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
     Route::get('test', function() {
         return response()->json(['name' => 'Dataface yo']);
     });
@@ -28,4 +30,8 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function() {
     Route::resource('support', 'SupportsController');
 
     Route::post('callDelete/{email}', ['as' => 'delete_user', 'uses' => 'SupportsController@show']);
+
+    Route::get('subscription-info/{user}', 'SubscriptionController@info');
+
+    Route::post('/pay', 'PayController@payment');
 });
