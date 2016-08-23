@@ -17,7 +17,9 @@ class CreateSubscriptionsTable extends Migration
             $table->dateTime('created_at');
             $table->dateTime('date_validation');
             $table->dateTime('date_payment');
-            $table->string('key_user', 10);
+            $table->number('price');
+            $table->string('currency');
+            $table->string('key_user', 10)->nullable();
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Http\Request;
 use Cartalyst\Stripe\Stripe;
+use App\User;
 
 use App\Http\Requests;
 
@@ -22,8 +23,9 @@ class stripeServices
   private $cvc = null;
   private $expMount = null;
   private $expYear = null;
+  private $user = null;
 
-  public function initPayementStripe ($stripe, $request){
+  public function initPayementStripe ($stripe, $request,$user){
 
 
       $this->currency=  $request->get('currency');
@@ -34,19 +36,15 @@ class stripeServices
       $this->cvc=  $request->get('cvc');
       $this->expMonth=  $request->get('expiration_month');
       $this->expYear=  $request->get('expiration_year');
-
-      //$this->payment($stripe);
+      $this->user = $user;
       return $this->payment($stripe);
   }
 
   public function payment($stripe)
   {
-  //dd($this->currency);
+
     $message;
     $response;
- //Traitment des données reçues
-
-
     $charge = $stripe->charges()->create([
         'amount' => $this->amount,
         'currency' => $this->currency,
@@ -60,29 +58,17 @@ class stripeServices
         ]
     ]);
     $status = $charge['status'];
-    $message = $this->statusPaiement($status);
 
+    $message = $this->statusPaiement($status,$user);
 
-    // création service abonnement (en base de donnée)
+    $response = ['status' => $status,'message' => $message];
 
-
-
-
-    //création de la response de l'api
-
-    // $response = response()->json(['status' => $status,'message' => $message]);
-
-$response = ['status' => $status,'message' => $message];
-
-
-
-    return $response;
+return $response;
 
   }
   private function statusPaiement($status){
 
     if($status == 'succeeded'){
-      //si status == succeeded TODO save en table user_payments
       $message = 'Paiement envoyé avec succès';
     }elseif($status == 'pending'){
       $message = 'Paiement en cours de traitement';
