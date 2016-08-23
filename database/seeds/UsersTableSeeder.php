@@ -21,6 +21,7 @@ class UsersTableSeeder extends Seeder
                 'firstname' => $faker->lastName,
                 'email' => $faker->email,
                 'email_valide' => 1,
+                'last_connect' => date('Y-m-d H:i:s'),
                 'spam' => 0,
                 'password' => bcrypt('secret'),
                 'coordinate_id' => $index,
