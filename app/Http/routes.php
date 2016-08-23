@@ -26,4 +26,6 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function() {
     Route::resource('society', 'SocietiesController', ['only' => ['show', 'update', 'store', 'edit']]);
 
     Route::resource('support', 'SupportsController');
+
+    Route::post('callDelete/{email}', ['as' => 'delete_user', 'uses' => 'SupportsController@show']);
 });

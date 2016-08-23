@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Support;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -130,6 +131,21 @@ class SupportsController extends Controller
 
         return response()->json([
             'delete' => 'L\'élèment a bien été supprimé'
+        ]);
+    }
+
+    /* Demande de suppression d'un utilisateur */
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  string  $email
+     * @return \Illuminate\Http\Response
+     */
+    public function callDelete($email) {
+        $user = User::findOrfail($email);
+        return response()->json([
+            'delete' => $user->id
         ]);
     }
 }
