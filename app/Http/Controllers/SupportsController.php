@@ -142,14 +142,18 @@ class SupportsController extends Controller
     public function callDelete(Request $request) {
         $user = User::where('email', $request->email)->first();
 
-        $user_applications = $user->applications()->first();
-        foreach ($user_applications as $user_appli) {
-//            echo $user_appli->id;
+        $user_applications = $user->applications();
+        $test = 'tom';
+        foreach ($user_applications as $appli) {
+            $test = $appli->id;
+//            $appli->delete();
         }
 //        $user->delete();
 
         return response()->json([
-            'delete_user' => $user->email,
+            'delete_user' => $user_applications,
+            'user' => $user,
+            'test' => $test
         ]);
     }
 }

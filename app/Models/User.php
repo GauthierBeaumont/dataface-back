@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'lastname','firstname','email','role_id','coordinate_id','password',
+        'lastname','firstname','email','role_id','coordinate_id','password', 'application_id', 'applications_list'
     ];
 
     /**
@@ -25,6 +25,17 @@ class User extends Authenticatable
     ];
 
     public function applications(){
-        return $this->belongsToMany('App\Models\Application');
+        return $this->belongsToMany('App\Models\Application')->withPivot('user_applications', 'application_id');
     }
+
+    public function getApplicationsListAttribute(){
+        if($this->id) {
+            return $this->applications()->lists('id');
+        }
+    }
+
+    public function setApplicationsListAttribute($value){
+        return $this->applications()->sync($value);
+    }
+
 }
