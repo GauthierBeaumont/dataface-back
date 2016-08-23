@@ -10,6 +10,8 @@ use Validator;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Auth;
 
+// Surcharge de la classe AuthController pour prendre en charge les réponses JSON
+
 class AuthJsonController extends AuthController
 {
   /**
@@ -40,6 +42,7 @@ class AuthJsonController extends AuthController
    */
   protected function create(array $data)
   {
+      // Création d'une coordonnée destinée à la foreign key User.coordinate_id
       $coord = Coordinate::create([
         'address' => $data['address'],
         'country' => $data['country'],
@@ -66,33 +69,20 @@ class AuthJsonController extends AuthController
 
           return $this->authenticated($request, Auth::guard($this->getGuard())->user());
       }
-      return response()->json(['status' => 'success', 'userData' => Auth::user()]);
-      //return redirect()->route('apiConnect')->with('status','success')->with('userData', Auth::user());
-
+      $headers = ['Access-Control-Allow-Origin' => 'http://localhost:8000/login'];
+      return response()->json(['status' => 'success', 'userData' => Auth::user()], 200, $headers);
   }
 
   protected function sendFailedLoginResponse(Request $request)
   {
-    return response()->json(['status' => 'fail', 'errorMessage' => $this->getFailedLoginMessage()]);
-    /*  return redirect()
-          ->route('apiConnect')
-          ->withInput($request->only($this->loginUsername(), 'remember'))
-          ->withErrors([
-              $this->loginUsername() => $this->getFailedLoginMessage(),
-          ])
-          ->with('status','fail');*/
+    $headers = ['Access-Control-Allow-Origin' => 'http://localhost:8000/login'];
+    return response()->json(['status' => 'fail', 'errorMessage' => $this->getFailedLoginMessage()], 400, $headers);
   }
 
   protected function sendLockoutResponse(Request $request)
   {
+      $headers = ['Access-Control-Allow-Origin' => 'http://localhost:8000/login'];
       $seconds = $this->secondsRemainingOnLockout($request);
-      return response()->json(['status' => 'fail', 'errorMessage' => $this->getLockoutErrorMessage($seconds)]);
-      /*return redirect()
-          ->route('apiConnect')
-          ->withInput($request->only($this->loginUsername(), 'remember'))
-          ->withErrors([
-                  $this->loginUsername() => $this->getLockoutErrorMessage($seconds),
-          ])
-          ->with('status','fail');*/
+      return response()->json(['status' => 'fail', 'errorMessage' => $this->getLockoutErrorMessage($seconds)], 400, $headers));
   }
 }
