@@ -24,4 +24,6 @@ Route::group(['prefix' => 'api', 'middleware' => 'cors'], function() {
 //    Route::get('presentation/{id}', ['as' => 'updateSociety', 'uses' => 'SocietysController@show']);
 
     Route::resource('society', 'SocietiesController', ['only' => ['show', 'update', 'store', 'edit']]);
+
+    Route::resource('support', 'SupportsController');
 });
