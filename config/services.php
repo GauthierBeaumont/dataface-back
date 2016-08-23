@@ -38,5 +38,11 @@ return [
         'key' => 'pk_test_u1rzoofoIjrheKfwT8xcmAaj',
         'secret' => 'sk_test_oZ04cQGpXNXlDg2XUuvDDle0',
     ],
+    'paypal' => [
 
+        'client_id' => 'AYq68ODDCcUXBtHkw_WDIm0Zt3FtNSk3bkzdFVvpPWpywj5FfuxuEq-Q-9iiPJB6GDjm7m6vh6H5QBfz',
+
+        'secret' => 'EOvH2tybpNLik_huHPRoWoDQ_VYq7bfBiIOd172Q2tsoJ5SUe19flyCrXMGIMgPjYbWPdQ7ZEz7EBSNR'
+
+    ],
 ];

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use Cartalyst\Stripe\Stripe;
-
 use App\Http\Requests;
+use App\Services\stripeServices;
+use App\Services\paypalServices;
+
 
 class PayController extends Controller
 {
@@ -36,26 +39,6 @@ class PayController extends Controller
         $this->expYear = $request->get('expiration_year');
     }
 
-    public function payment(Stripe $stripe)
-    {
-        $charge = $stripe->charges()->create([
-                'amount' => $this->amount,
-                'currency' => $this->currency,
-                'source' => [
-                'object'    => $this->object,
-                'name'      => $this->name,
-                'number'    => $this->number,
-                'cvc'       => $this->cvc,
-                'exp_month' => $this->expMonth,
-                'exp_year'  => $this->expYear,
-            ]
-        ]);
-        $status = $charge['status'];
-        $message = $this->statusPaiement($status);
-
-        return ['status' => $status,'message' => $message];
-    }
-
     private function statusPaiement($status) {
 
         if($status == 'succeeded') {
@@ -69,4 +52,26 @@ class PayController extends Controller
 
         return $message;
     }
+  /**
+   * Create a new controller instance.
+   *
+   * @return void
+   */
+
+
+  public function payment(Stripe $stripe, stripeServices $stripeServices,Request $request,paypalServices $paypalServices)
+  {
+
+    if("stripe" == $request->get('pay')){
+
+        $response =  $stripeServices->initPayementStripe($stripe,$request);
+        $response = response()->json($response);
+
+    }elseif ("paypal" == $request->get('pay') ) {
+
+       $response = $paypalServices->initPayementPaypal($request);
+    }
+      return $response;
+
+  }
 }
