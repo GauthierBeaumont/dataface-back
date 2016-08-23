@@ -23,4 +23,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
     });
 
     Route::get('subscription-info/{user}', 'SubscriptionController@info');
+
+    Route::post('/pay', 'PayController@payment');
 });
