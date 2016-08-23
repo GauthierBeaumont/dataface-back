@@ -13,7 +13,7 @@ class CreateFkTables extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('coordinate_id')->references('id')->on('coordinates');
+            $table->foreign('coordinate_id')->onDelete('cascade')->references('id')->on('coordinates');
             $table->foreign('role_id')->references('id')->on('roles');
         });
 
