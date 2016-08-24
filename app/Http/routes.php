@@ -24,7 +24,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
 
     Route::resource('support', 'SupportsController');
 
-    Route::post('callDelete', ['as' => 'delete_user', 'uses' => 'SupportsController@callDelete']);
+    Route::post('callDelete', ['as' => 'delete_user', 'uses' => 'UsersController@callDelete']);
 
     Route::get('subscription-info/{user}', 'SubscriptionController@info');
 
