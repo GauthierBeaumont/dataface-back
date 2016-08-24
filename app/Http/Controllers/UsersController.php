@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -58,7 +59,23 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $lastname   = '';
+        $firstname  = '';
+        $email      = '';
+
+        if (!empty($user)) {
+            $lastname   = $user->lastname;
+            $firstname  = $user->firstname;
+            $email      = $user->email;
+        }
+
+        return response()->json([
+            'lastname'  => $lastname,
+            'firstname' => $firstname,
+            'email'     => $email,
+        ]);
     }
 
     /**
@@ -70,7 +87,16 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->lastname = $request->lastname;
+        $user->firstname = $request->firstname;
+        $user->email = $request->email;
+        $user->save();
+
+        return response()->json([
+            'question' => $user->email,
+            'response' => $user->email,
+        ]);
     }
 
     /**

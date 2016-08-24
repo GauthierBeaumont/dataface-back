@@ -14,6 +14,8 @@ class SocietiesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
     public function show($id)
     {
         $society = Society::find(1);

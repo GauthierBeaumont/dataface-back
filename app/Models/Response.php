@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Support extends Model
+class Response extends Model
 {
     protected $fillable = [
-        'question',
-        'response',
+        'title',
+        'question_id',
+        'user_id',
     ];
 }

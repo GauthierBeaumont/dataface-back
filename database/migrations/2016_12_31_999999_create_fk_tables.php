@@ -17,6 +17,15 @@ class CreateFkTables extends Migration
             $table->foreign('role_id')->references('id')->on('roles');
         });
 
+        Schema::table('questions', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+
+        Schema::table('responses', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('question_id')->references('id')->on('questions');
+        });
+
         Schema::table('user_applications', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('application_id')->references('id')->on('applications');
