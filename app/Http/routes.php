@@ -13,13 +13,16 @@
 
 
 Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
-    Route::get('test', function() {
-        return response()->json(['name' => 'Dataface yo']);
-    });
 
     Route::get('subscription-info/{user}', 'SubscriptionController@info');
 
     Route::post('pay', 'PayController@payment');
+
+    Route::resource('society', 'SocietiesController', ['only' => ['show', 'update', 'store', 'edit']]);
+
+    Route::get('generateToken', function() {
+        return ['token' => Session::token()];
+    });
 });
 
 
@@ -41,8 +44,4 @@ Route::get('home', 'HomeController@index');
 
 Route::get('/', function() {
     return view('welcome');
-});
-
-Route::get('generateToken', function() {
-    return ['token' => Session::token()];
 });
