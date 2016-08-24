@@ -37,7 +37,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -48,7 +48,23 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+
+        $lastname   = '';
+        $firstname  = '';
+        $email      = '';
+
+        if (!empty($user)) {
+            $lastname   = $user->lastname;
+            $firstname  = $user->firstname;
+            $email      = $user->email;
+        }
+
+        return response()->json([
+            'lastname'  => $lastname,
+            'firstname' => $firstname,
+            'email'     => $email,
+        ]);
     }
 
     /**
