@@ -25,7 +25,7 @@ class User extends Authenticatable
     ];
 
     public function applications(){
-        return $this->belongsToMany('App\Models\Application')->withPivot('user_applications', 'application_id');
+        return $this->belongsToMany('App\Models\Application', 'user_applications');
     }
 
     public function getApplicationsListAttribute(){
