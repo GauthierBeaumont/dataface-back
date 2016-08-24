@@ -24,7 +24,6 @@ class UsersTableSeeder extends Seeder
                 'last_connect' => date('Y-m-d H:i:s'),
                 'spam' => 0,
                 'password' => bcrypt('secret'),
-                'coordinate_id' => $index,
                 'role_id' => rand(1, 2),
             ]);
         }

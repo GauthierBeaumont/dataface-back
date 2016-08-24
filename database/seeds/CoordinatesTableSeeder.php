@@ -20,7 +20,8 @@ class CoordinatesTableSeeder extends Seeder
                 'address' => $faker->streetAddress,
                 'country' => $faker->country,
                 'phone' => $faker->phoneNumber,
-                'postal_code' => $faker->postcode
+                'postal_code' => $faker->postcode,
+                'user_id' => $index,
             ]);
         }
     }

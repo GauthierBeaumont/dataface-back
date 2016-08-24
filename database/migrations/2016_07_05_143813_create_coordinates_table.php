@@ -19,6 +19,7 @@ class CreateCoordinatesTable extends Migration
             $table->string('country');
             $table->string('phone');
             $table->integer('postal_code');
+            $table->integer('user_id')->unsigned();
         });
     }
 

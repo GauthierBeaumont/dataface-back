@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Requests\ProfilePutRequest;
 use App\User;
 use DB;
+use Validator;
+use Hash;
 
 class ProfileController extends Controller
 {
@@ -55,8 +58,9 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
+      dd($id);
       $user = $this->user->join('roles', 'users.role_id', '=', 'roles.id')
-      ->join('coordinates', 'users.coordinate_id', '=', 'coordinates.id')
+      ->join('coordinates', 'users.id', '=', 'coordinates.user_id')
       ->select('*')->where('users.id', '=', $id)->first();
       return json_encode($user, JSON_UNESCAPED_UNICODE);
     }
@@ -79,9 +83,62 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+      $columns = ['id'];
+      $changeUser = false;
+      $changeCoord = false;
+      $dataUser = $request->except(['_method', '_token']);
+      $userPassword = DB::table('users')->where('id', $dataUser['id'])->select('password')->first();
+      $oldUserData = DB::table('users')->where('id', $dataUser['id'])->select('*')->first();
+      $oldCoordData = DB::table('coordinates')->where('user_id', $dataUser['id'])->select('*')->first();
+
+      foreach ($oldUserData as $key => $value) {
+        if(!in_array($key, $columns) && array_key_exists($key, $dataUser) && $dataUser[$key] !== $value) {
+          if($key === 'password' && Hash::check($dataUser['password'],$userPassword->password)) {
+            continue;
+          }
+          array_push($columns, $key);
+          $changeUser = true;
+        }
+      }
+
+      foreach ($oldCoordData as $key => $value) {
+        if(!in_array($key, $columns) && array_key_exists($key, $dataUser) && $dataUser[$key] !== $value) {
+          array_push($columns, $key);
+          $changeCoord = true;
+        }
+      }
+
+      $dataUser = $request->only($columns);
+
+      if(array_key_exists('password', $dataUser) && $dataUser['password']) {
+        $dataUser['password'] = bcrypt($dataUser['password']);
+      }
+
+      if(array_key_exists('email', $dataUser)) {
+        $dataUser['email_valide'] = 0;
+      }
+
+      $dataCoordinate = $request->only(['address', 'country', 'phone', 'postal_code']);
+
+      $user = DB::table('users')
+          ->where('id', $dataUser['id'])
+          ->update($dataUser);
+
+      $coord = DB::table('coordinates')
+        ->where('user_id', $dataUser['id'])
+        ->update($dataCoordinate);
+
+        if(!$changeUser && !$user) {
+          $user = true;
+        }
+        if(!$changeCoord && !$coord) {
+          $coord = true;
+        }
+
+        var_dump($columns);
+        return ['status' => ($user && $coord)];
     }
 
     /**
@@ -92,9 +149,7 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-      $coordinateId = $this->user->select('coordinate_id')->where('users.id', '=', $id)->first();
 
-      //$coordinateStatus = DB::table('coordinates')->where('coordinates.id', '=', $coordinateId['coordinate_id'])->delete();
       $userStatus = $this->user->where('users.id', '=', $id)->delete();
       return ['status' => ($userStatus)];
     }

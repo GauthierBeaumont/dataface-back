@@ -43,20 +43,23 @@ class AuthJsonController extends AuthController
   protected function create(array $data)
   {
       // Création d'une coordonnée destinée à la foreign key User.coordinate_id
-      $coord = Coordinate::create([
-        'address' => $data['address'],
-        'country' => $data['country'],
-        'phone' => $data['phone'],
-        'postal_code' => $data['postalCode']
-      ]);
-      return User::create([
+      $user = User::create([
           'lastname' => $data['lastName'],
           'firstname' => $data['firstName'],
           'email' => $data['email'],
           'role_id' => 2,
-          'coordinate_id' => $coord['id'],
           'password' => bcrypt($data['password']),
       ]);
+
+      Coordinate::create([
+        'address' => $data['address'],
+        'country' => $data['country'],
+        'phone' => $data['phone'],
+        'postal_code' => $data['postalCode'],
+        'user_id' => $user['id'],
+      ]);
+
+      return $user;
   }
 
   public function handleUserWasAuthenticated(Request $request, $throttles)

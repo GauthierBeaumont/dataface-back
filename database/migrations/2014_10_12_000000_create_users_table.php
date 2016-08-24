@@ -25,7 +25,6 @@ class CreateUsersTable extends Migration
             $table->boolean('spam');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
-            $table->integer('coordinate_id')->unsigned();
             $table->integer('role_id')->unsigned();
         });
     }

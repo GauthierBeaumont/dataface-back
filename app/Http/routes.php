@@ -43,4 +43,9 @@ Route::get('/', function() {
     return view('welcome');
 });
 
+Route::get('profile', 'ProfileController@show');
+Route::put('profile', 'ProfileController@update');
+Route::delete('profile', 'ProfileController@destroy');
+
+
 Route::resource('profile', 'ProfileController');
