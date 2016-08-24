@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class ProfilePutRequest extends Request
+class ProfileRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,15 @@ class ProfilePutRequest extends Request
     public function rules()
     {
         return [
-          'id' => 'max:10|unique:users',
-          'lastName' => 'max:255',
-          'firstName' => 'max:255',
-          'address' => 'max:255',
-          'country' => 'max:100',
-          'phone' => 'max:30',
-          'postalCode' => 'max:20',
-          'email' => 'max:255',
-          'password' => 'min:6',
+          'id' => 'integer|max:10',
+          'lastName' => 'string|max:255',
+          'firstName' => 'string|max:255',
+          'address' => 'string|max:255',
+          'country' => 'string|max:100',
+          'phone' => 'string|max:30',
+          'postalCode' => 'string|max:20',
+          'email' => 'email|max:255',
+          'password' => 'string|min:6',
         ];
     }
 }

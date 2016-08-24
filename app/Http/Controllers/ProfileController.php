@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Requests\ProfilePutRequest;
+use App\Http\Requests\ProfileRequest;
 use App\User;
 use DB;
 use Validator;
@@ -56,9 +56,9 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ProfileRequest $request)
     {
-      dd($id);
+      $id = $request->input('id');
       $user = $this->user->join('roles', 'users.role_id', '=', 'roles.id')
       ->join('coordinates', 'users.id', '=', 'coordinates.user_id')
       ->select('*')->where('users.id', '=', $id)->first();
@@ -83,7 +83,7 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(ProfileRequest $request)
     {
       $columns = ['id'];
       $changeUser = false;
@@ -137,7 +137,6 @@ class ProfileController extends Controller
           $coord = true;
         }
 
-        var_dump($columns);
         return ['status' => ($user && $coord)];
     }
 
@@ -147,9 +146,9 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ProfileRequest $request)
     {
-
+      $id = $request->input('id');
       $userStatus = $this->user->where('users.id', '=', $id)->delete();
       return ['status' => ($userStatus)];
     }
