@@ -56,13 +56,23 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ProfileRequest $request)
+    public function show($id)
     {
-      $id = $request->input('id');
+      // Must ultimately use ProfileRequest validator for params
+      // $id = $request->input('id');
+
       $user = $this->user->join('roles', 'users.role_id', '=', 'roles.id')
       ->join('coordinates', 'users.id', '=', 'coordinates.user_id')
       ->select('*')->where('users.id', '=', $id)->first();
-      return json_encode($user, JSON_UNESCAPED_UNICODE);
+
+      if(!$user) {
+        return ['status' => 'fail'];
+      } else {
+        // Problem with response utf8 encoding, needs to set JSON_UNESCAPED_UNICODE in a fashionable way
+        return ['status' => 'success', 'profile' => $user];
+      }
+
+
     }
 
     /**
@@ -146,9 +156,9 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProfileRequest $request)
+    public function destroy($id)
     {
-      $id = $request->input('id');
+      //$id = $request->input('id');
       $userStatus = $this->user->where('users.id', '=', $id)->delete();
       return ['status' => ($userStatus)];
     }
