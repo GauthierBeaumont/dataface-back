@@ -24,7 +24,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function typePayments(){
-      return $this->hasMany('App\Models\TypePayment');
+    public function Subscription(){
+      return $this->belongsToMany('App\Models\Subscription','user_subscriptions');
     }
+
 }

@@ -22,14 +22,16 @@ class CreateFkTables extends Migration
             $table->foreign('application_id')->references('id')->on('applications');
         });
 
-        Schema::table('user_subscriptions', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('user_subscription_id')->references('id')->on('subscriptions');
+
+        Schema::table('subscriptions', function (Blueprint $table) {
+            $table->foreign('subscriptions_types_id')->references('id')->on('subscriptions_types');
+            $table->foreign('type_payments_id')->references('id')->on('type_payments');
+
         });
 
-        Schema::table('user_payments', function (Blueprint $table) {
+        Schema::table('user_subscriptions', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('type_payment_id')->references('id')->on('type_payments');
+            $table->foreign('subscription_id')->references('id')->on('subscriptions');
         });
     }
 

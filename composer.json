@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "barryvdh/laravel-debugbar": "^2.2",
         "cartalyst/stripe-laravel": "~2.0",
-        "netshell/paypal": "dev-master"
+        "netshell/paypal": "dev-master",
+        "barryvdh/laravel-dompdf": "^0.7.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

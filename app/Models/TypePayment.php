@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TypePayment extends Model
 {
-    public function users(){
-      return $this->hasMany('App\User');
+    public $timestamps = false;
+    public function subscriptions(){
+      return $this->hasMany('App\Models\Subscription');
     }
 }

@@ -5,6 +5,7 @@ use Cartalyst\Stripe\Stripe;
 use App\Http\Requests;
 use App\Services\stripeServices;
 use App\Services\paypalServices;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use App\User;
 class PayController extends Controller

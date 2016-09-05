@@ -5,7 +5,8 @@ namespace App\Services;
 use Illuminate\Http\Request;
 use Cartalyst\Stripe\Stripe;
 use App\User;
-
+use App\Models\Subscription;
+use App\Models\SubscriptionsTypes;
 use App\Http\Requests;
 
 class stripeServices
@@ -24,6 +25,7 @@ class stripeServices
   private $expMount = null;
   private $expYear = null;
   private $user = null;
+  private $typeSubscription = null;
 
   public function initPayementStripe ($stripe, $request,$user){
 
@@ -37,6 +39,8 @@ class stripeServices
       $this->expMonth=  $request->get('expiration_month');
       $this->expYear=  $request->get('expiration_year');
       $this->user = $user;
+      //dd(SubscriptionsTypes::findOrFail($request->get('typeSubscription')));
+      $this->typeSubscription = SubscriptionsTypes::findOrFail($request->get('typeSubscription'));
       return $this->payment($stripe);
   }
 
@@ -59,7 +63,7 @@ class stripeServices
     ]);
     $status = $charge['status'];
 
-    $message = $this->statusPaiement($status,$user);
+    $message = $this->statusPaiement($status);
 
     $response = ['status' => $status,'message' => $message];
 
@@ -69,7 +73,21 @@ return $response;
   private function statusPaiement($status){
 
     if($status == 'succeeded'){
-      $message = 'Paiement envoyé avec succès';
+        //insert into Subscriptions table
+        $Subscription = new Subscription();
+        $Subscription->price = $this->amount;
+        $Subscription->currency = $this->currency;
+        $Subscription->date_validation = (new \DateTime())->add(new \DateInterval('P'.$this->typeSubscription->duration_month.'M'));
+        $Subscription->date_payment = new \DateTime();
+        $Subscription->key_user = '0000';
+        $Subscription->type_payments_id = 1;
+        $Subscription->subscriptions_types_id = $this->typeSubscription->id;
+        $Subscription->save();
+        // insert into user_subscriptions
+        $Subscription->users()->attach($this->user->id);
+
+        $message = 'Paiement envoyé avec succès et abonnement enregistré';
+
     }elseif($status == 'pending'){
       $message = 'Paiement en cours de traitement';
     }else{

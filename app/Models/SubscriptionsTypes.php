@@ -7,4 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SubscriptionsTypes extends Model
 {
     public $timestamps = false;
+    public function subscriptions(){
+      return $this->hasMany('App\Models\Subscription');
+    }
 }
