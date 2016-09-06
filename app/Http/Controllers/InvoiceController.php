@@ -41,7 +41,7 @@ class InvoiceController extends Controller
           <div id="company" class="clearfix">
             <div>DATAFACE</div>
             <div>6 Place Charles Hernu, 69100 Villeurbanne<br /> France</div>
-            <div><a >Dataface@gmail.com</a></div>
+            <div><a >contact@dataface.com</a></div>
           </div>
           <div id="project">
             <div><span>PROJET </span> Application development</div>
@@ -69,17 +69,17 @@ class InvoiceController extends Controller
               <tr>
                 <td class="service">'.$user->subscription[0]->typeSubscription->name.'</td>
                 <td class="desc">'.$user->subscription[0]->typeSubscription->description.'</td>
-                <td class="unit">'.$priceHT.'</td>
+                <td class="unit">'.$priceHT.' '.$user->subscription[0]->currency.'</td>
                 <td class="qty">1</td>
-                <td class="total">'.$priceHT.'</td>
+                <td class="total">'.$priceHT.' '.$user->subscription[0]->currency.'</td>
               </tr>
               <tr>
               <td colspan="4" class="grand total">TVA</td>
-              <td class="grand total">'.($tva*100).'%</td>
+              <td class="grand total">'.(number_format($tva*100,2)).'%</td>
               </tr>
               <tr>
                 <td colspan="4" class="grand total">TOTAL TTC</td>
-                <td class="grand total">'.$priceTTC.'</td>
+                <td class="grand total">'.$priceTTC.' '.$user->subscription[0]->currency.'</td>
               </tr>
 
             </tbody>
