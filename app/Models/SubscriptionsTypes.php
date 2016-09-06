@@ -8,6 +8,6 @@ class SubscriptionsTypes extends Model
 {
     public $timestamps = false;
     public function subscriptions(){
-      return $this->hasMany('App\Models\Subscription');
+      return $this->hasMany('App\Models\Subscription','subscriptions_types_id','id');
     }
 }

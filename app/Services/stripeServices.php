@@ -79,13 +79,13 @@ return $response;
         $Subscription->currency = $this->currency;
         $Subscription->date_validation = (new \DateTime())->add(new \DateInterval('P'.$this->typeSubscription->duration_month.'M'));
         $Subscription->date_payment = new \DateTime();
-        $Subscription->key_user = '0000';
+        $Subscription->key_user = rand(1000000000,2000000000);
         $Subscription->type_payments_id = 1;
         $Subscription->subscriptions_types_id = $this->typeSubscription->id;
         $Subscription->save();
         // insert into user_subscriptions
-        $Subscription->users()->attach($this->user->id);
-
+        $Subscription->users()->attach($this->user->id,['no_facture'=> $Subscription->key_user, 'date_facture'=>date("Y-m-d H:i:s")]);
+        //dd($Subscription);
         $message = 'Paiement envoyé avec succès et abonnement enregistré';
 
     }elseif($status == 'pending'){
