@@ -23,6 +23,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
     Route::get('generateToken', function() {
         return ['token' => Session::token()];
     });
+
+    Route::post('invoicePdf','InvoiceController@createInvoicePdf');
 });
 
 

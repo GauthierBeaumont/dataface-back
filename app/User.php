@@ -23,4 +23,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function Subscription(){
+      return $this->belongsToMany('App\Models\Subscription','user_subscriptions')->withPivot('no_facture','date_facture');
+    }
+    public function coordinate(){
+      return $this->hasOne('App\Models\Coordinate','id');
+    }
+
 }
