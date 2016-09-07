@@ -12,7 +12,7 @@
 */
 
 
-Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
+Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
 
     Route::get('subscription-info/{user}', 'SubscriptionController@info');
 
@@ -23,17 +23,16 @@ Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
     Route::get('generateToken', function() {
         return ['token' => Session::token()];
     });
+
+    // Authentication Routes...
+    Route::get('login', 'Auth\AuthJsonController@showLoginForm');
+    Route::post('login', 'Auth\AuthJsonController@login');
+    Route::get('logout', 'Auth\AuthJsonController@logout');
+
+    // Registration Routes...
+    Route::get('register', 'Auth\AuthJsonController@showRegistrationForm');
+    Route::post('register', 'Auth\AuthJsonController@register');
 });
-
-
-// Authentication Routes...
-Route::get('login', 'Auth\AuthJsonController@showLoginForm');
-Route::post('login', 'Auth\AuthJsonController@login');
-Route::get('logout', 'Auth\AuthJsonController@logout');
-
-// Registration Routes...
-Route::get('register', 'Auth\AuthJsonController@showRegistrationForm');
-Route::post('register', 'Auth\AuthJsonController@register');
 
 // Password Reset Routes...
 Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
