@@ -24,8 +24,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
 
     Route::resource('subscriptions-types', 'SubscriptionTypeController');
 
-    //Route::get('subscriptions-types','SubscriptionController@typeSubscriptions');
-
     Route::get('generateToken', function() {
         return ['token' => Session::token()];
     });
