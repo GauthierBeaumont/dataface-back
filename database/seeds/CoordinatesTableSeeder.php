@@ -21,6 +21,7 @@ class CoordinatesTableSeeder extends Seeder
                 'country' => $faker->country,
                 'phone' => $faker->phoneNumber,
                 'postal_code' => $faker->postcode,
+                'city' => $faker->city,
                 'user_id' => $index,
             ]);
         }

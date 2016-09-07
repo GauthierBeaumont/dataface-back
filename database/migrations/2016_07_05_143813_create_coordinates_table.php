@@ -16,6 +16,7 @@ class CreateCoordinatesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('address');
+            $table->string('city');
             $table->string('country');
             $table->string('phone');
             $table->integer('postal_code');

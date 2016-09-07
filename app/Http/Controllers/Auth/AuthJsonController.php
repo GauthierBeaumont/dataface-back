@@ -72,7 +72,12 @@ class AuthJsonController extends AuthController
 
           return $this->authenticated($request, Auth::guard($this->getGuard())->user());
       }
-      return ['status' => 'success', 'userData' => Auth::user()];
+      
+      $user = User::findOrFail(Auth::user()->id)->join('roles', 'users.role_id', '=', 'roles.id')
+      ->join('coordinates', 'users.id', '=', 'coordinates.user_id')
+      ->select('*')->where('users.id', '=', Auth::user()->id)->first();
+
+      return ['status' => 'success', 'userData' => $user];
   }
 
   protected function sendFailedLoginResponse(Request $request)
