@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('firstname', 100);
             $table->string('email')->unique();
             $table->boolean('email_valide');
+            $table->boolean('isBlocked')->default(0);
             $table->string('password');
             $table->dateTime('last_connect');
             $table->rememberToken();

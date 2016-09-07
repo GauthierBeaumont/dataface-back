@@ -33,6 +33,12 @@ Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
         return ['token' => Session::token()];
     });
 
+    Route::post('blocked/{user}', function(App\User $user, Illuminate\Http\Request $request) {
+    	$user->changeUserStatusBlockage();
+    	return ['status_user_blocked' => $user->isBlocked];
+    });
+
+
     Route::post('invoicePdf','InvoiceController@createInvoicePdf');
 
     Route::resource('profile', 'ProfileController');
