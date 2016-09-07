@@ -11,8 +11,17 @@
 |
 */
 
-
 Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
+
+    Route::resource('society', 'SocietiesController', ['only' => ['show', 'update', 'store', 'edit']]);
+
+    Route::resource('questions', 'QuestionsController');
+
+    Route::resource('responses', 'ResponsesController');
+
+    Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'edit']]);
+
+    Route::post('callDelete', ['as' => 'delete_user', 'uses' => 'UsersController@callDelete']);
 
     Route::get('subscription-info/{user}', 'SubscriptionController@info');
 
@@ -34,6 +43,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
     // Registration Routes...
     Route::get('register', 'Auth\AuthJsonController@showRegistrationForm');
     Route::post('register', 'Auth\AuthJsonController@register');
+
 });
 
 // Password Reset Routes...

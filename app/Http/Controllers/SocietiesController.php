@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Society;
+use App\Models\Society;
 
 class SocietiesController extends Controller
 {
@@ -14,6 +14,8 @@ class SocietiesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
     public function show($id)
     {
         $society = Society::find(1);
