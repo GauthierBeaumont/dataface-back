@@ -31,4 +31,8 @@ class User extends Authenticatable
       return $this->hasOne('App\Models\Coordinate','id');
     }
 
+    public function changeUserStatusBlockage() {
+        $this->isBlocked = !$this->isBlocked;
+        $this->save();
+    }
 }

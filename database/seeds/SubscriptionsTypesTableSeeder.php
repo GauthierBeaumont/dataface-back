@@ -15,12 +15,19 @@ class SubscriptionsTypesTableSeeder extends Seeder
       SubscriptionsTypes::create([
           'price' => 300,
           'name'  => 'Premium',
+          'Description' => 'Abonnement de 1 ans',
           'duration_month'  => 12,
       ]);
-
+      SubscriptionsTypes::create([
+          'price' => 500,
+          'name'  => 'Premium +',
+          'Description' => 'Abonnement de 2 ans avec en cadeau une carte collector yu-gi-oh!',
+          'duration_month'  => 24,
+      ]);
       SubscriptionsTypes::create([
           'price' => 0,
           'name'  => 'Free',
+          'Description' =>'Essai gratuit pendant 1 mois',
           'duration_month'  => 1,
       ]);
 

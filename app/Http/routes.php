@@ -13,14 +13,24 @@
 
 
 Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
-    Route::get('test', function() {
-        return response()->json(['name' => 'Dataface yo']);
-    });
 
     Route::get('subscription-info/{user}', 'SubscriptionController@info');
 
     Route::post('pay', 'PayController@payment');
+
     Route::post('invoicePdf','InvoiceController@createInvoicePdf');
+
+    Route::resource('society', 'SocietiesController', ['only' => ['show', 'update', 'store', 'edit']]);
+
+    Route::get('generateToken', function() {
+        return ['token' => Session::token()];
+    });
+
+    Route::post('blocked/{user}', function(App\User $user, Illuminate\Http\Request $request) {
+    	$user->changeUserStatusBlockage();
+    	return ['status_user_blocked' => $user->isBlocked];
+    });
+
 });
 
 

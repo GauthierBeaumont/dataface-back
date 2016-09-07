@@ -22,6 +22,7 @@ class DeleteTables extends Migration
      */
     public function down()
     {
+
         Schema::drop('user_applications');
         Schema::drop('user_subscriptions');
         Schema::drop('applications');
@@ -30,8 +31,12 @@ class DeleteTables extends Migration
         Schema::drop('type_payments');
         Schema::drop('supports');
         Schema::drop('password_resets');
-        Schema::drop('users');
+
         Schema::drop('roles');
         Schema::drop('coordinates');
+        Schema::drop('societies');
+        Schema::drop('users');
+
+
     }
 }
