@@ -162,6 +162,7 @@ return [
         Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
         Netshell\Paypal\PaypalServiceProvider::class,
         App\Providers\StripeServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -210,6 +211,7 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
         'Paypal' => Netshell\Paypal\Facades\Paypal::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

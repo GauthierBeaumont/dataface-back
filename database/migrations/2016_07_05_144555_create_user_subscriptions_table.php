@@ -14,8 +14,10 @@ class CreateUserSubscriptionsTable extends Migration
     {
         Schema::create('user_subscriptions', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
-            $table->integer('user_subscription_id')->unsigned();
-            $table->primary(array('user_id', 'user_subscription_id'));
+            $table->integer('subscription_id')->unsigned();
+            $table->string('no_facture');
+            $table->dateTime('date_facture');
+            $table->primary(array('user_id', 'subscription_id'));
         });
     }
 

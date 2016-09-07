@@ -24,6 +24,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
         return ['token' => Session::token()];
     });
 
+    Route::post('invoicePdf','InvoiceController@createInvoicePdf');
+
     // Authentication Routes...
     Route::get('login', 'Auth\AuthJsonController@showLoginForm');
     Route::post('login', 'Auth\AuthJsonController@login');

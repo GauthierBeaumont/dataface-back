@@ -4,7 +4,9 @@ namespace App\Services;
 
 use Illuminate\Http\Request;
 use Cartalyst\Stripe\Stripe;
-
+use App\User;
+use App\Models\Subscription;
+use App\Models\SubscriptionsTypes;
 use App\Http\Requests;
 
 class stripeServices
@@ -22,8 +24,10 @@ class stripeServices
   private $cvc = null;
   private $expMount = null;
   private $expYear = null;
+  private $user = null;
+  private $typeSubscription = null;
 
-  public function initPayementStripe ($stripe, $request){
+  public function initPayementStripe ($stripe, $request,$user){
 
 
       $this->currency=  $request->get('currency');
@@ -34,19 +38,17 @@ class stripeServices
       $this->cvc=  $request->get('cvc');
       $this->expMonth=  $request->get('expiration_month');
       $this->expYear=  $request->get('expiration_year');
-
-      //$this->payment($stripe);
+      $this->user = $user;
+      //dd(SubscriptionsTypes::findOrFail($request->get('typeSubscription')));
+      $this->typeSubscription = SubscriptionsTypes::findOrFail($request->get('typeSubscription'));
       return $this->payment($stripe);
   }
 
   public function payment($stripe)
   {
-  //dd($this->currency);
+
     $message;
     $response;
- //Traitment des données reçues
-
-
     $charge = $stripe->charges()->create([
         'amount' => $this->amount,
         'currency' => $this->currency,
@@ -60,30 +62,32 @@ class stripeServices
         ]
     ]);
     $status = $charge['status'];
+
     $message = $this->statusPaiement($status);
 
+    $response = ['status' => $status,'message' => $message];
 
-    // création service abonnement (en base de donnée)
-
-
-
-
-    //création de la response de l'api
-
-    // $response = response()->json(['status' => $status,'message' => $message]);
-
-$response = ['status' => $status,'message' => $message];
-
-
-
-    return $response;
+return $response;
 
   }
   private function statusPaiement($status){
 
     if($status == 'succeeded'){
-      //si status == succeeded TODO save en table user_payments
-      $message = 'Paiement envoyé avec succès';
+        //insert into Subscriptions table
+        $Subscription = new Subscription();
+        $Subscription->price = $this->amount;
+        $Subscription->currency = $this->currency;
+        $Subscription->date_validation = (new \DateTime())->add(new \DateInterval('P'.$this->typeSubscription->duration_month.'M'));
+        $Subscription->date_payment = new \DateTime();
+        $Subscription->key_user = rand(1000000000,2000000000);
+        $Subscription->type_payments_id = 1;
+        $Subscription->subscriptions_types_id = $this->typeSubscription->id;
+        $Subscription->save();
+        // insert into user_subscriptions
+        $Subscription->users()->attach($this->user->id,['no_facture'=> $Subscription->key_user, 'date_facture'=>date("Y-m-d H:i:s")]);
+        //dd($Subscription);
+        $message = 'Paiement envoyé avec succès et abonnement enregistré';
+
     }elseif($status == 'pending'){
       $message = 'Paiement en cours de traitement';
     }else{
