@@ -29,18 +29,19 @@ class stripeServices
 
   public function initPayementStripe ($stripe, $request,$user){
 
-
+      $this->user = $user;
+      $this->typeSubscription = SubscriptionsTypes::findOrFail($request->get('typeSubscription'));
       $this->currency=  $request->get('currency');
       $this->object=  'card';
       $this->amount=  $request->get('amount');
-      $this->name=  $request->get('name');
+      $this->name=  $this->user->name;
       $this->number=  $request->get('card_no');
       $this->cvc=  $request->get('cvc');
       $this->expMonth=  $request->get('expiration_month');
       $this->expYear=  $request->get('expiration_year');
-      $this->user = $user;
+
       //dd(SubscriptionsTypes::findOrFail($request->get('typeSubscription')));
-      $this->typeSubscription = SubscriptionsTypes::findOrFail($request->get('typeSubscription'));
+
       return $this->payment($stripe);
   }
 
@@ -75,6 +76,7 @@ return $response;
     if($status == 'succeeded'){
         //insert into Subscriptions table
         $Subscription = new Subscription();
+        $Subscription->created_at = new \DateTime();
         $Subscription->price = $this->amount;
         $Subscription->currency = $this->currency;
         $Subscription->date_validation = (new \DateTime())->add(new \DateInterval('P'.$this->typeSubscription->duration_month.'M'));

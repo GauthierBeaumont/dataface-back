@@ -7,21 +7,30 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Carbon\Carbon;
 use App\User;
+use App\Models\Subscription;
+use App\Models\SubscriptionsTypes;
 
 class SubscriptionController extends Controller
 {
+    //return subsciption information about an user
     public function info(User $user)
     {
-        $beginFreeTrial = Carbon::createFromFormat('Y-m-d H:i:s', $user->created_at);
-        $endFreeTrial = $beginFreeTrial->addDays(15);
 
-        $typeSubscription = $beginFreeTrial <= $endFreeTrial ? 'Free' : 'Premium';
+        $now = Carbon::now();
+        if (isset($user->subscription[0])) {
+            $subscriptionDateValide = Carbon::createFromFormat('Y-m-d H:i:s', $user->subscription[0]->date_validation);
+            $typeSubscription = $user->subscription[0];
+            $test = json_decode($typeSubscription, true);
+            array_push($test,$user->subscription[0]->typeSubscription);
+            if($now->gt($subscriptionDateValide)){
+              $timeLeft = 'abonnement expiré';
+            }else{
+                $timeLeft = $subscriptionDateValide->diff($now);
+            }
 
-        $timeLeft = $typeSubscription == 'Free' ? 
-            $endFreeTrial
-            : 0;
-
-        return ['type_subscription' => $typeSubscription, 'end_subscription' => $timeLeft];
+            return ['type_subscription' => $typeSubscription, 'end_subscription' => $timeLeft];
+        }
+        return ['status' => 'Aucun abonnement pour cet utilisateur'];
     }
 
     private function secondsToTime($seconds)
@@ -30,5 +39,9 @@ class SubscriptionController extends Controller
         $dtT = new \DateTime("@$seconds");
 
         return $dtF->diff($dtT)->format('%a jours, %h heures, %i minutes et %s seconds');
+    }
+    //return all subscriptions type
+    public function typeSubscriptions(){
+      return SubscriptionsTypes::All();
     }
 }

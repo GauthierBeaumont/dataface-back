@@ -27,7 +27,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
 
     Route::post('pay', 'PayController@payment');
 
+    Route::post('invoicePdf','InvoiceController@createInvoicePdf');
+
     Route::resource('society', 'SocietiesController', ['only' => ['show', 'update', 'store', 'edit']]);
+
+    Route::resource('subscriptions-types', 'SubscriptionTypeController');
 
     Route::get('generateToken', function() {
         return ['token' => Session::token()];
@@ -37,9 +41,6 @@ Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
     	$user->changeUserStatusBlockage();
     	return ['status_user_blocked' => $user->isBlocked];
     });
-
-
-    Route::post('invoicePdf','InvoiceController@createInvoicePdf');
 
     Route::resource('profile', 'ProfileController');
     
