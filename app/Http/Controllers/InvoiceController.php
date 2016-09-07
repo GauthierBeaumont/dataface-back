@@ -19,7 +19,8 @@ class InvoiceController extends Controller
   {
     $user = User::findOrFail($request->get('userId'));
     //$Subscription = Subscription::findOrFail($request->get('subscriptionId'));
-    $priceHT = $user->subscription[0]->typeSubscription->price;
+    $lastSubscription = count($user->subscription);
+    $priceHT = $user->subscription[$lastSubscription-1]->typeSubscription->price;
     $tva = 0.2;
     $priceTTC = ($priceHT*$tva) + $priceHT;
     $priceTTC = number_format($priceTTC,2);
@@ -37,7 +38,7 @@ class InvoiceController extends Controller
           <div id="logo">
               <img src="'.public_path().'/images/logo-dataface-noir.png">
           </div>
-          <h1>'.$user->subscription[0]->pivot->no_facture.'</h1>
+          <h1>'.$user->subscription[$lastSubscription-1]->pivot->no_facture.'</h1>
           <div id="company" class="clearfix">
             <div>DATAFACE</div>
             <div>6 Place Charles Hernu, 69100 Villeurbanne<br /> France</div>
@@ -46,9 +47,9 @@ class InvoiceController extends Controller
           <div id="project">
             <div><span>PROJET </span> Application development</div>
             <div><span>CLIENT </span>  ' .$user->lastname.' '.$user->firstname.'</div>
-            <div><span>ADRESSE </span> '.$user->Coordinate->address . ' '.$user->Coordinate->postal_code.' '.$user->Coordinate->coountry.'</div>
+            <div><span>ADRESSE </span> '.$user->Coordinate->address . ' '.$user->Coordinate->postal_code.' '.$user->Coordinate->country.'</div>
             <div><span>EMAIL </span> <ahref> '.$user->email.'</a></div>
-            <div><span>DATE </span> '.$user->subscription[0]->pivot->date_facture.'</div>
+            <div><span>DATE </span> '.$user->subscription[$lastSubscription-1]->pivot->date_facture.'</div>
           </div>
         </header>
         <main>
@@ -67,11 +68,11 @@ class InvoiceController extends Controller
             </thead>
             <tbody>
               <tr>
-                <td class="service">'.$user->subscription[0]->typeSubscription->name.'</td>
-                <td class="desc">'.$user->subscription[0]->typeSubscription->description.'</td>
-                <td class="unit">'.$priceHT.' '.$user->subscription[0]->currency.'</td>
+                <td class="service">'.$user->subscription[$lastSubscription-1]->typeSubscription->name.'</td>
+                <td class="desc">'.$user->subscription[$lastSubscription-1]->typeSubscription->description.'</td>
+                <td class="unit">'.$priceHT.' '.$user->subscription[$lastSubscription-1]->currency.'</td>
                 <td class="qty">1</td>
-                <td class="total">'.$priceHT.' '.$user->subscription[0]->currency.'</td>
+                <td class="total">'.$priceHT.' '.$user->subscription[$lastSubscription-1]->currency.'</td>
               </tr>
               <tr>
               <td colspan="4" class="grand total">TVA</td>
@@ -79,7 +80,7 @@ class InvoiceController extends Controller
               </tr>
               <tr>
                 <td colspan="4" class="grand total">TOTAL TTC</td>
-                <td class="grand total">'.$priceTTC.' '.$user->subscription[0]->currency.'</td>
+                <td class="grand total">'.$priceTTC.' '.$user->subscription[$lastSubscription-1]->currency.'</td>
               </tr>
 
             </tbody>

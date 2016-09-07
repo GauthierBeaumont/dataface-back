@@ -15,17 +15,9 @@ class SubscriptionController extends Controller
     //return subsciption information about an user
     public function info(User $user)
     {
-        // $beginFreeTrial = Carbon::createFromFormat('Y-m-d H:i:s', $user->created_at);
-        // $endFreeTrial = $beginFreeTrial->addDays(15);
-        //
-        // $typeSubscription = $beginFreeTrial <= $endFreeTrial ? 'Free' : 'Premium';
-        //
-        // $timeLeft = $typeSubscription == 'Free' ?
-        //     $endFreeTrial
-        //     : 0;
+
         $now = Carbon::now();
         $subscriptionDateValide = Carbon::createFromFormat('Y-m-d H:i:s', $user->subscription[0]->date_validation);
-        //dd($now.' '.$subscriptionDateValide);
         $typeSubscription = $user->subscription[0];
         $test = json_decode($typeSubscription, true);
         array_push($test,$user->subscription[0]->typeSubscription);
