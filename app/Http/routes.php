@@ -35,6 +35,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
 
     Route::post('invoicePdf','InvoiceController@createInvoicePdf');
 
+    Route::resource('profile', 'ProfileController');
+    
     // Authentication Routes...
     Route::get('login', 'Auth\AuthJsonController@showLoginForm');
     Route::post('login', 'Auth\AuthJsonController@login');
@@ -56,3 +58,8 @@ Route::get('home', 'HomeController@index');
 Route::get('/', function() {
     return view('welcome');
 });
+
+// Route::get('profile', 'ProfileController@show');
+// Route::put('profile', 'ProfileController@update');
+// Route::delete('profile', 'ProfileController@destroy');
+

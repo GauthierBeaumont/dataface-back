@@ -13,6 +13,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('lastname', 100);
             $table->string('firstname', 100);
@@ -24,7 +25,6 @@ class CreateUsersTable extends Migration
             $table->boolean('spam');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
-            $table->integer('coordinate_id')->unsigned();
             $table->integer('role_id')->unsigned();
         });
     }
