@@ -22,8 +22,10 @@ Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
 
     Route::resource('society', 'SocietiesController', ['only' => ['show', 'update', 'store', 'edit']]);
 
-    Route::get('subscriptions-types','SubscriptionController@typeSubscriptions');
-    
+    Route::resource('subscriptions-types', 'SubscriptionTypeController');
+
+    //Route::get('subscriptions-types','SubscriptionController@typeSubscriptions');
+
     Route::get('generateToken', function() {
         return ['token' => Session::token()];
     });
