@@ -15,9 +15,9 @@ class InvoiceController extends Controller
    *
    * @return void
    */
-  public function createInvoicePdf(Request $request)
+  public function createInvoicePdf(User $user)
   {
-    $user = User::findOrFail($request->get('userId'));
+    
     //$Subscription = Subscription::findOrFail($request->get('subscriptionId'));
     $lastSubscription = count($user->subscription);
     $priceHT = $user->subscription[$lastSubscription-1]->typeSubscription->price;

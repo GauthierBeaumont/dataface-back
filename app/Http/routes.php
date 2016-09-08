@@ -27,7 +27,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
 
     Route::post('pay', 'PayController@payment');
 
-    Route::post('invoicePdf','InvoiceController@createInvoicePdf');
+    Route::get('invoicePdf/{user}','InvoiceController@createInvoicePdf');
 
     Route::resource('society', 'SocietiesController', ['only' => ['show', 'update', 'store', 'edit']]);
 
@@ -51,7 +51,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
     Route::put('dockerTable', 'DockerTableController@update');
     Route::delete('dockerTable', 'DockerTableController@destroy');
     Route::resource('dockerTable','DockerTableController', ['except' => ['create', 'show', 'edit']]);
-    
+
     // Authentication Routes...
     Route::get('login', 'Auth\AuthJsonController@showLoginForm');
     Route::post('login', 'Auth\AuthJsonController@login');

@@ -34,7 +34,8 @@ class stripeServices
       $this->currency=  $request->get('currency');
       $this->object=  'card';
       $this->amount=  $request->get('amount');
-      $this->name=  $this->user->name;
+      //dd($this->user);
+      $this->name=  $this->user->lastname;
       $this->number=  $request->get('card_no');
       $this->cvc=  $request->get('cvc');
       $this->expMonth=  $request->get('expiration_month');
