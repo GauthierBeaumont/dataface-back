@@ -50,15 +50,16 @@ class AuthJsonController extends AuthController
           'role_id' => 2,
           'password' => bcrypt($data['password']),
       ]);
+      
 
-      Coordinate::create([
+     Coordinate::create([
         'address' => $data['address'],
         'country' => $data['country'],
         'phone' => $data['phone'],
         'postal_code' => $data['postalCode'],
         'user_id' => $user['id'],
       ]);
-
+     
       return $user;
   }
 
