@@ -17,6 +17,7 @@ class PayController extends Controller
    */
   public function payment(Stripe $stripe, stripeServices $stripeServices,Request $request,paypalServices $paypalServices)
   {
+    $response= null;
     if("stripe" == $request->get('pay')){
         $response =  $stripeServices->initPayementStripe($stripe,$request,Auth::user());
         $response = response()->json($response);
