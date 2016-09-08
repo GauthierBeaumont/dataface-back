@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
     Route::get('test', function() {
         return response()->json(['name' => 'Dataface yo']);
@@ -38,6 +37,13 @@ Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
 Route::post('password/reset', 'Auth\PasswordController@reset');
 
 Route::get('home', 'HomeController@index');
+
+Route::put('docker','DockerController@update');
+Route::delete('docker','DockerController@destroy');
+
+Route::resource('docker','DockerController', ['except' => ['create', 'show', 'edit']]);
+
+Route::resource('dockerTable','DockerTableController', ['except' => ['create', 'show', 'edit']]);
 
 Route::get('/', function() {
     return view('welcome');

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Application;
 
 class User extends Authenticatable
 {
@@ -23,4 +24,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function applications() {
+        return $this->belongsToMany('App\Models\Application', 'user_applications');
+    }
+
+    public function subscriptions() {
+        return $this->belongsToMany('App\Models\Subscription', 'user_subscriptions');
+    }
+
 }

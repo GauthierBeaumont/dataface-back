@@ -14,8 +14,11 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('id_docker');
             $table->string('name', 100);
-            $table->string('key_user', 10);
+            $table->string('db_name', 100);
+            $table->string('password_user', 20);
+            $table->string('login_user');
             $table->string('url_app');
             $table->text('description');
             $table->dateTime('created_at');

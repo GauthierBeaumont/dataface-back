@@ -1,8 +1,6 @@
 <?php
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class DeleteTables extends Migration
 {
     /**
@@ -14,7 +12,6 @@ class DeleteTables extends Migration
     {
         //
     }
-
     /**
      * Reverse the migrations.
      *
@@ -24,9 +21,9 @@ class DeleteTables extends Migration
     {
         Schema::drop('user_applications');
         Schema::drop('user_subscriptions');
-        Schema::drop('user_payments');
         Schema::drop('applications');
         Schema::drop('subscriptions');
+        Schema::drop('subscriptions_types');
         Schema::drop('type_payments');
         Schema::drop('supports');
         Schema::drop('password_resets');

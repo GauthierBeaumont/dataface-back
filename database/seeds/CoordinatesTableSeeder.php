@@ -1,8 +1,6 @@
 <?php
-
 use Illuminate\Database\Seeder;
 use App\Models\Coordinate;
-
 class CoordinatesTableSeeder extends Seeder
 {
     /**
@@ -13,7 +11,6 @@ class CoordinatesTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create('fr_FR');
-
         foreach(range(1, 10) as $index)
         {
             Coordinate::create([

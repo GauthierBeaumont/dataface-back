@@ -1,8 +1,6 @@
 <?php
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class CreateUsersTable extends Migration
 {
     /**
@@ -28,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->integer('role_id')->unsigned();
         });
     }
-
     /**
      * Reverse the migrations.
      *
