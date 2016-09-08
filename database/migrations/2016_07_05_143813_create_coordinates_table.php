@@ -1,8 +1,6 @@
 <?php
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class CreateCoordinatesTable extends Migration
 {
     /**
@@ -23,7 +21,6 @@ class CreateCoordinatesTable extends Migration
             $table->integer('user_id')->unsigned();
         });
     }
-
     /**
      * Reverse the migrations.
      *

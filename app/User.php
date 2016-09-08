@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Application;
 
 class User extends Authenticatable
 {
@@ -12,7 +13,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'lastname','firstname','email','role_id','coordinate_id','password',
+        'lastname','firstname','email','role_id','coordinate_id','password', 'application_id', 'applications_list'
     ];
 
     /**
@@ -35,5 +36,23 @@ class User extends Authenticatable
     public function changeUserStatusBlockage() {
         $this->isBlocked = !$this->isBlocked;
         $this->save();
+    }
+
+    public function applications() {
+        return $this->belongsToMany('App\Models\Application', 'user_applications');
+    }
+
+    public function subscriptions() {
+        return $this->belongsToMany('App\Models\Subscription', 'user_subscriptions');
+    }
+
+    public function getApplicationsListAttribute(){
+        if($this->id) {
+            return $this->applications()->lists('id');
+        }
+    }
+
+    public function setApplicationsListAttribute($value){
+        return $this->applications()->sync($value);
     }
 }

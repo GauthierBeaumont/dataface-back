@@ -1,8 +1,6 @@
 <?php
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class CreateFkTables extends Migration
 {
     /**
@@ -34,7 +32,6 @@ class CreateFkTables extends Migration
             $table->foreign('application_id')->references('id')->on('applications');
         });
 
-
         Schema::table('subscriptions', function (Blueprint $table) {
             $table->foreign('subscriptions_types_id')->references('id')->on('subscriptions_types');
             $table->foreign('type_payments_id')->references('id')->on('type_payments');
@@ -46,7 +43,6 @@ class CreateFkTables extends Migration
             $table->foreign('subscription_id')->references('id')->on('subscriptions');
         });
     }
-
     /**
      * Reverse the migrations.
      *
