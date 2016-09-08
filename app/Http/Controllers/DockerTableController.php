@@ -56,13 +56,13 @@ class DockerTableController extends Controller
      */
     public function store(DockerTableRequest $request)
     {
-      	$table = $this->dockerTableRepository->store($request->all());
-
-    	if($tables->status === "success"){
-        	return $tables->data;
-        }else{
-        	return $tables->message;
+      	$createTable = $this->dockerTableRepository->store($request->all());
+        
+    	if($createTable['status'] === "fail"){
+        	return ['message' => 'il y a eu un soucis au niveau de la création de votre table'];
         }
+        
+        return ['message' => 'la table ' . $request->input('name_table') . ' a bien été créée'];
 
     }
 
