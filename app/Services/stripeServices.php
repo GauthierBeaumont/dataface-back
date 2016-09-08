@@ -30,11 +30,11 @@ class stripeServices
   public function initPayementStripe ($stripe, $request,$user){
 
       $this->user = $user;
+      //dd($this->user);
       $this->typeSubscription = SubscriptionsTypes::findOrFail($request->get('typeSubscription'));
       $this->currency=  $request->get('currency');
       $this->object=  'card';
       $this->amount=  $request->get('amount');
-      //dd($this->user);
       $this->name=  $this->user->lastname;
       $this->number=  $request->get('card_no');
       $this->cvc=  $request->get('cvc');
