@@ -28,7 +28,7 @@ class SubscriptionController extends Controller
                 $timeLeft = $subscriptionDateValide->diff($now);
             }
 
-            return ['type_subscription' => $typeSubscription, 'end_subscription' => $timeLeft];
+            return ['info_subscription' => $typeSubscription, 'end_subscription' => $timeLeft];
         }
         return ['status' => 'Aucun abonnement pour cet utilisateur'];
     }
