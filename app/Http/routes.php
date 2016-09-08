@@ -46,5 +46,5 @@ Route::resource('docker','DockerController', ['except' => ['create', 'show', 'ed
 Route::resource('dockerTable','DockerTableController', ['except' => ['create', 'show', 'edit']]);
 
 Route::get('/', function() {
-    return view('welcome');
+  return view('welcome');
 });

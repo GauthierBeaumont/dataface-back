@@ -162,6 +162,7 @@ return [
         Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
         Netshell\Paypal\PaypalServiceProvider::class,
         App\Providers\StripeServiceProvider::class,
+        App\Providers\DockerServiceProvider::class,
     ],
 
     /*
