@@ -25,12 +25,16 @@ class DockerTableController extends Controller
     public function index(DockerTableRequest $request)
     {
         $tables = $this->dockerTableRepository->getTables($request->all());
-    	
-        if($tables->status === "success"){
-        	return $tables->data;
-        }else{
-        	return $tables->message;
+
+        if($tables['status'] === "fail"){
+            return ['message' => 'Problème de requete'];
         }
+        
+        if(!array_key_exists("data", $tables)){
+            return ['message' => 'Vous n\'avez pas de tables dans votre application'];
+        }
+
+        return $tables['data'];
 
     }
 
@@ -104,6 +108,13 @@ class DockerTableController extends Controller
      */
     public function destroy(DockerTableRequest $request)
     {
-        $this->dockerTableRepository->destroy($request->all()));
+       $destroyTable = $this->dockerTableRepository->destroy($request->all());
+
+       if($destroyTable['status'] === "fail"){
+            return ['message' => 'Problème de suppression'];
+        }
+
+        return ['message' => 'la table '  . $request->input('name_table') . ' a bien été supprimée'];
+
     }
 }

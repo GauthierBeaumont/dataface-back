@@ -18,22 +18,24 @@ class DockerTableRepository
         $this->dockerServiceProvider = $dockerServiceProvider;
     }
 
-    private function getDbName($idApplication){
+    private function getApplication($idApplication){
 
-        $dbName = $this->application
-                                    ->select('db_name')
+        $application = $this->application
+                                    ->select('*')
                                     ->where('id','=', $idApplication)
                                     ->first();
-        return $dbName->db_name;
+        return $application;
 
     } 
 
     public function getTables(Array $inputs){
         //récupération du nom de la Base de donnée
 
-        $tables = "use " . $this->getDbName($inputs['idApplication']) . "; SHOW tables;";
+        $application = $this->getApplication($inputs['idApplication']);
 
-        
+        $query = "use " . $application->db_name . "; SHOW tables;";
+
+        $tables = $this->dockerServiceProvider->queryDockerDb($application->id_docker, $application->login_user, $application->password_user, $query);
 
         return $tables;
     }
@@ -48,29 +50,32 @@ class DockerTableRepository
     */
     public function store(Array $inputs)
     {
-        // var_dump($inputs['nameColumnsTable']);die;
-        // dd($inputs['nameColumnsTable']);
-        //AIME PAS LES VARCHAR
+        $application = $this->getApplication($inputs['idApplication']);
  
-        $createTable = "use" . $this->getDbName($inputs['idApplication']) . "; create table if not exists " . $inputs['name_table'] . " ( " .
+        $query = "use" . $this->getDbName($inputs['idApplication']) . "; create table if not exists " . $inputs['name_table'] . " ( " .
 
-                            $string = "id INT UNSIGNED NOT NULL AUTO_INCREMENT,"; 
+                            $query = "id INT UNSIGNED NOT NULL AUTO_INCREMENT,"; 
 
                             foreach($inputs['nameColumnsTable'] as $valNameColumnsTable){
-                                    $string .= " " . $valNameColumnsTable->name;
-                                    $string .= " " . $valNameColumnsTable->type;
-                                    $string .= " " . $valNameColumnsTable->nullable . ",";
+
+                                    $query .= " " . $valNameColumnsTable->name;
+                                    $query .= " " . $valNameColumnsTable->type;
+
+                                    if($valNameColumnsTable->type == "varchar") {
+                                        $query .= "(255)";
+                                    }
+
+                                    $query .= " " . $valNameColumnsTable->nullable . ",";
                             }
                            
                         "PRIMARY KEY(id)
                     )
                     ENGINE=INNODB;";
 
-        //bash qui créer les tables;
+        $createTables = $this->dockerServiceProvider->queryDockerDb($application->id_docker, $application->login_user, $application->password_user, $query);
 
-        return $createTable;
+        return $createTables;
 
-        
     }
 
     /**
@@ -108,11 +113,13 @@ class DockerTableRepository
     */
     public function destroy(Array $inputs)
     {
-        $dropTable = "use " . $this->getDbName($inputs['idApplication']) . "; drop table " . $inputs['name_table'] . ";";
+        $application = $this->getApplication($inputs['idApplication']);
 
-        //petit coup de bash
+        $query = "use " . $application->db_name . "; drop table " . $inputs['name_table'] . ";";
 
-        return $dropTable;
+        $destroyTable = $this->dockerServiceProvider->queryDockerDb($application->id_docker, $application->login_user, $application->password_user, $query);
+
+        return $destroyTable;
     }
 
 }

@@ -71,7 +71,7 @@ class DockerServiceProvider extends ServiceProvider
       $process = new Process('echo 0000 | sudo -S docker exec -t '.$dockerId.' sh -c "mysql -u'.$dbUser.' -p'.$dbPassword.' -e\"'.$query.'\" | cat"');
       $process->run();
       $output = rtrim($process->getOutput(), "\n");
-      if($output === 'FAILURE') {
+      if($output === 'FAILURE' || substr($output, 0, 5) === 'ERROR') {
         return array('status'=>'fail');
       }
       if(!$output) {

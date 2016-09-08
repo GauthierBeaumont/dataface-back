@@ -43,6 +43,7 @@ Route::delete('docker','DockerController@destroy');
 
 Route::resource('docker','DockerController', ['except' => ['create', 'show', 'edit']]);
 
+Route::delete('dockerTable', 'DockerTableController@destroy');
 Route::resource('dockerTable','DockerTableController', ['except' => ['create', 'show', 'edit']]);
 
 Route::get('/', function() {
