@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
+Route::group(['prefix' => 'api'], function() {
 
     Route::resource('society', 'SocietiesController', ['only' => ['show', 'update', 'store', 'edit']]);
 

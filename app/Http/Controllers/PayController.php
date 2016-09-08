@@ -18,8 +18,11 @@ class PayController extends Controller
   public function payment(Stripe $stripe, stripeServices $stripeServices,Request $request,paypalServices $paypalServices)
   {
     $response= null;
+
     if("stripe" == $request->get('pay')){
-        $response =  $stripeServices->initPayementStripe($stripe,$request,Auth::user());
+        $user = User::findOrFail($request->get('userId'));
+        //$user = User::where('id', $request->get('userId'))->get();
+        $response =  $stripeServices->initPayementStripe($stripe,$request,$user);
         $response = response()->json($response);
     }elseif ("paypal" == $request->get('pay') ) {
        $response = $paypalServices->initPayementPaypal($request);
