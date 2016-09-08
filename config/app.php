@@ -163,6 +163,7 @@ return [
         Netshell\Paypal\PaypalServiceProvider::class,
         App\Providers\StripeServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        App\Providers\DockerServiceProvider::class,
     ],
 
     /*

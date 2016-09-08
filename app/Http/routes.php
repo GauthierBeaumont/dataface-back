@@ -43,6 +43,14 @@ Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
     });
 
     Route::resource('profile', 'ProfileController');
+
+    Route::put('docker','DockerController@update');
+    Route::delete('docker','DockerController@destroy');
+
+    Route::resource('docker','DockerController', ['except' => ['create', 'show', 'edit']]);
+
+    Route::delete('dockerTable', 'DockerTableController@destroy');
+    Route::resource('dockerTable','DockerTableController', ['except' => ['create', 'show', 'edit']]);
     
     // Authentication Routes...
     Route::get('login', 'Auth\AuthJsonController@showLoginForm');
