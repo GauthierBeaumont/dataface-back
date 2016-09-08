@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::group(['prefix' => 'api', 'middleware' => ['cors', 'ip']], function() {
     Route::get('test', function() {
         return response()->json(['name' => 'Dataface yo']);
@@ -40,5 +39,5 @@ Route::post('password/reset', 'Auth\PasswordController@reset');
 Route::get('home', 'HomeController@index');
 
 Route::get('/', function() {
-    return view('welcome');
+  return view('welcome');
 });
