@@ -50,9 +50,11 @@ class DockerTableRepository
     */
     public function store(Array $inputs)
     {
+
+        $inputs['nameColumnsTable'] = json_decode(str_replace('\'','"',$inputs['nameColumnsTable']));
+
         $application = $this->getApplication($inputs['idApplication']);
- 
-        $query = "use" . $this->getDbName($inputs['idApplication']) . "; create table if not exists " . $inputs['name_table'] . " ( " .
+        $query = "use " . $application->db_name . "; create table " . $inputs['name_table'] . " (" .
 
                             $query = "id INT UNSIGNED NOT NULL AUTO_INCREMENT,"; 
 
@@ -64,13 +66,14 @@ class DockerTableRepository
                                     if($valNameColumnsTable->type == "varchar") {
                                         $query .= "(255)";
                                     }
-
-                                    $query .= " " . $valNameColumnsTable->nullable . ",";
+                                    if(!$valNameColumnsTable->nullable) {
+                                        $query .= " NOT NULL,";
+                                    }else{
+                                        $query .= ",";
+                                    }
                             }
                            
-                        "PRIMARY KEY(id)
-                    )
-                    ENGINE=INNODB;";
+                        $query .= "PRIMARY KEY(id)) ENGINE = INNODB;";
 
         $createTables = $this->dockerServiceProvider->queryDockerDb($application->id_docker, $application->login_user, $application->password_user, $query);
 
@@ -96,11 +99,11 @@ class DockerTableRepository
     *
     * @param $inputs = valeur des champs enregistrés
     */
-    private function save(Array $inputs)
+    public function save(Array $inputs)
     {
         
-        $destroy = $this->destroy($inputs['name_table']);
-        $create = $this->create($inputs);
+        $destroy = $this->destroy($inputs);
+        $create = $this->store($inputs);
 
         return ($destroy && $create);
     }

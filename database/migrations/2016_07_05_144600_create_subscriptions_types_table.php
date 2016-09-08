@@ -17,6 +17,7 @@ class CreateSubscriptionsTypesTable extends Migration
           $table->decimal('price',10,2);
           $table->string('name');
           $table->integer('duration_month');
+          $table->integer('nbApplication');
           $table->longText('description');
           $table->integer('order'); // soit 1 ou 0
       });

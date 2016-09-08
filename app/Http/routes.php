@@ -48,7 +48,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['ip']], function() {
     Route::delete('docker','DockerController@destroy');
 
     Route::resource('docker','DockerController', ['except' => ['create', 'show', 'edit']]);
-
+    Route::put('dockerTable', 'DockerTableController@update');
     Route::delete('dockerTable', 'DockerTableController@destroy');
     Route::resource('dockerTable','DockerTableController', ['except' => ['create', 'show', 'edit']]);
     
