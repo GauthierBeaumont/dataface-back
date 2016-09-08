@@ -19,7 +19,6 @@ class CreateApplicationsTable extends Migration
             $table->string('db_name', 100);
             $table->string('password_user', 20);
             $table->string('login_user');
-            $table->string('url_app');
             $table->text('description');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');

@@ -4,25 +4,27 @@ namespace App\Repositories;
 
 use App\Models\Application;
 use Illuminate\Database\Eloquent\Collection;
+use App\Providers\DockerServiceProvider;
+
 
 class DockerTableRepository
 {
 
     protected $application;
-    protected $dbName;
-    
-    public function __construct(Application $application) {
+    protected $dockerServiceProvider;
+
+    public function __construct(Application $application, DockerServiceProvider $dockerServiceProvider) {
         $this->application = $application;
-        $this->dbName = $this->application->table;
+        $this->dockerServiceProvider = $dockerServiceProvider;
     }
 
     private function getDbName($idApplication){
 
         $dbName = $this->application
-                                    ->select('name')
+                                    ->select('db_name')
                                     ->where('id','=', $idApplication)
                                     ->first();
-        return $dbName->name;
+        return $dbName->db_name;
 
     } 
 
@@ -31,7 +33,8 @@ class DockerTableRepository
 
         $tables = "use " . $this->getDbName($inputs['idApplication']) . "; SHOW tables;";
 
-        //bash qui récupère $tables;
+        
+
         return $tables;
     }
 

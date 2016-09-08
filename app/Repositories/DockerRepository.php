@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\User;
 use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
+use App\Providers\DockerServiceProvider;
 
 class DockerRepository
 {
@@ -14,11 +15,13 @@ class DockerRepository
     protected $application;
     protected $user;
     protected $subscription;
+    protected $dockerServiceProvider;
 
-    public function __construct(Application $application, User $user, Subscription $subscription){
+    public function __construct(Application $application, User $user, Subscription $subscription, DockerServiceProvider $dockerServiceProvider){
         $this->application = $application;
         $this->user = $user;
         $this->subscription = $subscription;
+        $this->dockerServiceProvider = $dockerServiceProvider;
     }
 
 
@@ -96,10 +99,11 @@ class DockerRepository
     private function getUser($idUser){
 
         $user = $this->user
-                            ->select('email')
+                            ->select('lastname')
                             ->where('id','=', $idUser)
                             ->first();
-        return $user->email;
+
+        return $user->lastname;
     }
 
     /**
@@ -113,16 +117,20 @@ class DockerRepository
     public function store(Array $inputs)
     {
 
+        $initDocker = $this->dockerServiceProvider->initDocker($inputs['db_name'] ,$this->getUser($inputs['userId']));
+
+        if($initDocker['status'] === 'fail' ){
+            return $initDocker;
+        }
+
         $application = new $this->application;
-        $application->id_docker = "ijztzoier5878676z5r4eg";
-        $application->name = $inputs['name'];
-        $application->db_name = $inputs['name'];
+        $application->id_docker = $initDocker['idDocker'];
+        $application->name = $inputs['db_name'];
+        $application->db_name = $inputs['db_name'];
 
         //donner par le bash
-        $application->password_user = "etzerg5";
+        $application->password_user = $initDocker['dbPassword'];
         $application->login_user = $this->getUser($inputs['userId']);
-
-        $application->url_app = "etzerg57454dsfgrytyety";
         $application->description = $inputs['description'];
         $application->created_at = time();
         $application->updated_at = time();
@@ -161,11 +169,7 @@ class DockerRepository
     */
     private function save(Array $inputs, Application $application)
     {
-        $application->id_docker = "ijztzoier5878676z5r4eg";
         $application->name = $inputs['name'];
-        $application->db_name = $inputs['name'];
-        $application->key_user = "etzerg5";
-        $application->url_app = "etzerg57454dsfgrytyety";
         $application->description = $inputs['description'];
         $application->created_at = time();
         $application->updated_at = time();
@@ -183,6 +187,14 @@ class DockerRepository
     */
     public function destroy($idApplication)
     {
+        $getDocker = $this->findApplicationById($idApplication);
+
+        $destroyDocker = $this->dockerServiceProvider->destroyDocker($getDocker->id_docker);
+
+        if($destroyDocker['status'] === 'fail'){
+            return false;
+        }
+
         $detach = $this->findApplicationById($idApplication)->users()->detach();
         $delete = $this->findApplicationById($idApplication)->delete();
 

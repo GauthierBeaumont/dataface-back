@@ -14,7 +14,7 @@ class DockerController extends Controller
     protected $dockerRepository;
 
     public function __construct(DockerRepository $dockerRepository) {
-        $this->dockerRepository = $dockerRepository;
+        $this->dockerRepository = $dockerRepository;  
     }
 
     /**
@@ -55,8 +55,6 @@ class DockerController extends Controller
      */
     public function store(DockerRequest $request)
     {
-        $this->dockerRepository->findApplicationById($request->input('idApplication'));
-
         $subscription = $this->dockerRepository->findNbAppliSubscriptions($request->input('userId'));
 
         if($subscription->nbApplication < count($this->dockerRepository->getApplications($request->input('userId')))){

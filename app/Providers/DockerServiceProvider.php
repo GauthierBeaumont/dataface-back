@@ -39,7 +39,7 @@ class DockerServiceProvider extends ServiceProvider
       $output = rtrim($process->getOutput(), "\n");
 
       if($output === 'FAILURE') {
-        return array('status'=>'fail', 'message'=>'Erreur lors de la création du container Docker');
+        return array('status'=>'fail');
       }
       $dockerId = $output;
 
@@ -54,13 +54,25 @@ class DockerServiceProvider extends ServiceProvider
       return array('status'=>'success', 'idDocker'=>$dockerId, 'dbPassword'=>$dbPassword);
     }
 
+    public function destroyDocker($dockerId) {
+      $process = new Process('echo 0000 | sudo -S docker kill '.$dockerId.' || echo FAILURE');
+      $process->run();
+      $output = rtrim($process->getOutput(), "\n");
+
+      if($output === $dockerId) {
+        return array('status'=>'success');
+      }
+
+      return array('status'=>'fail');
+    }
+
 
     public function queryDockerDb($dockerId, $dbUser, $dbPassword, $query) {
       $process = new Process('echo 0000 | sudo -S docker exec -t '.$dockerId.' sh -c "mysql -u'.$dbUser.' -p'.$dbPassword.' -e\"'.$query.'\" | cat"');
       $process->run();
       $output = rtrim($process->getOutput(), "\n");
       if($output === 'FAILURE') {
-        return array('status'=>'fail', 'message'=>'Erreur lors de la requête');
+        return array('status'=>'fail');
       }
       if(!$output) {
         return array('status'=>'success');

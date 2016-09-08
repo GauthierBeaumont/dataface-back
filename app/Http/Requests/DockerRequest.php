@@ -25,10 +25,12 @@ class DockerRequest extends Request
     {
         return [
             'userId' => 'integer',
-            'name' => 'string|max:255',
+            'db_name' => 'string|max:255',
             'description' => 'string',
             'idApplication' => 'integer',
-            'login_user' => 'email'
+            'login_user' => 'email',
+            'id_docker' => 'string',
+            'password_user' => 'string|max:20',
         ];
     }
 }
